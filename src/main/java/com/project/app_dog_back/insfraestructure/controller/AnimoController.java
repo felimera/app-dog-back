@@ -20,12 +20,12 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping(path = "/api/v1/animo")
 @Slf4j
 @CrossOrigin(origins = "http://localhost:4200")
-public class IAnimoController {
+public class AnimoController {
 
     private IAnimoService iAnimoService;
 
     @Autowired
-    public IAnimoController(IAnimoService iAnimoService) {
+    public AnimoController(IAnimoService iAnimoService) {
         this.iAnimoService = iAnimoService;
     }
 
