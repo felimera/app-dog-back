@@ -10,7 +10,7 @@ import org.mapstruct.factory.Mappers;
 public interface IIccMapper {
     IIccMapper INSTANCE = Mappers.getMapper(IIccMapper.class);
 
-    @Mapping(source = "id", target = "idIcc")
+    @Mapping(target = "idIcc", source = "id")
     @Mapping(target = "valido", ignore = true)
     IccDto toDto(Icc entity);
 }

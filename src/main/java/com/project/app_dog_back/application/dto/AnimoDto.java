@@ -7,8 +7,8 @@ import lombok.Setter;
 @Getter
 @Setter
 @Builder
-public class IccDto {
-    private Long idIcc;
+public class AnimoDto {
+    private Long idAnimo;
     private String nombre;
     private String descripcion;
     private Boolean valido;
