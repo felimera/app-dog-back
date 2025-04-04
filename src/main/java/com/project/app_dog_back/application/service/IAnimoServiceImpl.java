@@ -35,7 +35,7 @@ public class IAnimoServiceImpl implements IAnimoService {
     @Override
     public Animo getById(Long idAnimo) {
         Locale locale = LocaleContextHolder.getLocale();
-        String mensaje = iMessageService.getMensaje("war.repeated", locale);
+        String mensaje = iMessageService.getMensaje("infor.not_found", locale);
         return iAnimoRepository.findById(idAnimo)
                 .orElseThrow(() -> new NotFoundException(mensaje, String.valueOf(HttpStatus.NOT_FOUND.value()), HttpStatus.NOT_FOUND));
     }

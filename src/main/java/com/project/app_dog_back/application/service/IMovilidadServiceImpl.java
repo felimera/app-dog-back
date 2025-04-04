@@ -34,7 +34,7 @@ public class IMovilidadServiceImpl implements IMovilidadService {
     @Override
     public Movilidad getById(Long idMovlidad) {
         Locale locale = LocaleContextHolder.getLocale();
-        String mensaje = iMessageService.getMensaje("war.repeated", locale);
+        String mensaje = iMessageService.getMensaje("infor.not_found", locale);
         return iMovilidadRepository.findById(idMovlidad)
                 .orElseThrow(() -> new NotFoundException(mensaje, String.valueOf(HttpStatus.NOT_FOUND.value()), HttpStatus.NOT_FOUND));
     }

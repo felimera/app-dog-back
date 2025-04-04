@@ -34,7 +34,7 @@ public class IRazaServiceImpl implements IRazaService {
     @Override
     public Raza getById(Long idRaza) {
         Locale locale = LocaleContextHolder.getLocale();
-        String mensaje = iMessageService.getMensaje("war.repeated", locale);
+        String mensaje = iMessageService.getMensaje("infor.not_found", locale);
         return iRazaRepository.findById(idRaza)
                 .orElseThrow(() -> new NotFoundException(mensaje, String.valueOf(HttpStatus.NOT_FOUND.value()), HttpStatus.NOT_FOUND));
     }

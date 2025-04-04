@@ -32,7 +32,7 @@ public class IUnidadMasaServiceImpl implements IUnidadMasaService {
     @Override
     public UnidadMasa getById(Long idUnidadMasa) {
         Locale locale = LocaleContextHolder.getLocale();
-        String mensaje = iMessageService.getMensaje("war.repeated", locale);
+        String mensaje = iMessageService.getMensaje("infor.not_found", locale);
         return iUnidadMasaRepository.findById(idUnidadMasa)
                 .orElseThrow(() -> new NotFoundException(mensaje, String.valueOf(HttpStatus.NOT_FOUND.value()), HttpStatus.NOT_FOUND));
     }

@@ -35,7 +35,7 @@ public class IColorPeloServiceImpl implements IColorPeloService {
     @Override
     public ColorPelo getById(Long idColorPelo) {
         Locale locale = LocaleContextHolder.getLocale();
-        String mensaje = iMessageService.getMensaje("war.repeated", locale);
+        String mensaje = iMessageService.getMensaje("infor.not_found", locale);
         return iColorPeloRepository.findById(idColorPelo)
                 .orElseThrow(() -> new NotFoundException(mensaje, String.valueOf(HttpStatus.NOT_FOUND.value()), HttpStatus.NOT_FOUND));
     }
