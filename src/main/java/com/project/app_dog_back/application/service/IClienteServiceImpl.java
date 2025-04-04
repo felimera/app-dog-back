@@ -42,6 +42,13 @@ public class IClienteServiceImpl implements IClienteService {
     }
 
     @Override
+    public Cliente getClienteById(Long idCliente) {
+        Locale locale = LocaleContextHolder.getLocale();
+        String message = iMessageService.getMensaje("infor.not_found", locale);
+        return iClienteRepository.findById(idCliente).orElseThrow(() -> new NotFoundException(message, String.valueOf(HttpStatus.NOT_FOUND.value()), HttpStatus.NOT_FOUND));
+    }
+
+    @Override
     public ClienteDto create(ClienteDto dto) {
         if (iClienteRepository.getMatchOnEmail(dto.getEmail()) > 0) {
             Locale locale = LocaleContextHolder.getLocale();

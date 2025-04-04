@@ -24,10 +24,11 @@ public class IPerroServiceImpl implements IPerroService {
     private IAnimoService iAnimoService;
     private IIccService iIccService;
     private IUnidadMasaService iUnidadMasaService;
+    private IClienteService iClienteService;
     private IMessageService iMessageService;
 
     @Autowired
-    public IPerroServiceImpl(IPerroRepository iPerroRepository, IRazaService iRazaService, IMovilidadService iMovilidadService, IColorPeloService iColorPeloService, IAnimoService iAnimoService, IIccService iIccService, IUnidadMasaService iUnidadMasaService, IMessageService iMessageService) {
+    public IPerroServiceImpl(IPerroRepository iPerroRepository, IRazaService iRazaService, IMovilidadService iMovilidadService, IColorPeloService iColorPeloService, IAnimoService iAnimoService, IIccService iIccService, IUnidadMasaService iUnidadMasaService, IClienteService iClienteService, IMessageService iMessageService) {
         this.iPerroRepository = iPerroRepository;
         this.iRazaService = iRazaService;
         this.iMovilidadService = iMovilidadService;
@@ -35,6 +36,7 @@ public class IPerroServiceImpl implements IPerroService {
         this.iAnimoService = iAnimoService;
         this.iIccService = iIccService;
         this.iUnidadMasaService = iUnidadMasaService;
+        this.iClienteService = iClienteService;
         this.iMessageService = iMessageService;
     }
 
@@ -49,6 +51,7 @@ public class IPerroServiceImpl implements IPerroService {
         perro.setAnimo(iAnimoService.getById(perroDto.getIdAnimo()));
         if (Objects.nonNull(perroDto.getIdUnidadMasa()))
             perro.setUnidadMasa(iUnidadMasaService.getById(perroDto.getIdUnidadMasa()));
+        perro.setCliente(iClienteService.getClienteById(perroDto.getIdCliente()));
 
         return IPerroMapper.INSTANCE.toDto(iPerroRepository.save(perro));
     }

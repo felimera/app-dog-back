@@ -26,4 +26,5 @@ public class PerroDto {
     private Long idColorPelo;
     private Long idAnimo;
     private Long idUnidadMasa;
+    private Long idCliente;
 }
