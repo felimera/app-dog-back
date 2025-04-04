@@ -40,7 +40,7 @@ public class ClienteController {
 
     @Operation(summary = "Get a record by id.")
     @GetMapping(path = "{id}")
-    public ResponseEntity<Response> create(@PathVariable(name = "id") Long id) {
+    public ResponseEntity<Response> getById(@PathVariable(name = "id") Long id) {
         Response response = new Response();
         response.setMeta(Meta.builder().build().toMetaBuilder(TypesStatus.SUCCESS.name()));
         response.setPagination(Pagination.builder().build().toPaginationBuilder());
