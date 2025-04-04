@@ -25,4 +25,5 @@ public class PerroDto {
     private Long idMovilidad;
     private Long idColorPelo;
     private Long idAnimo;
+    private Long idUnidadMasa;
 }

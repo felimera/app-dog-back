@@ -12,6 +12,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import java.util.Locale;
+import java.util.Objects;
 
 @Service
 public class IPerroServiceImpl implements IPerroService {
@@ -22,16 +23,18 @@ public class IPerroServiceImpl implements IPerroService {
     private IColorPeloService iColorPeloService;
     private IAnimoService iAnimoService;
     private IIccService iIccService;
+    private IUnidadMasaService iUnidadMasaService;
     private IMessageService iMessageService;
 
     @Autowired
-    public IPerroServiceImpl(IPerroRepository iPerroRepository, IRazaService iRazaService, IMovilidadService iMovilidadService, IColorPeloService iColorPeloService, IAnimoService iAnimoService, IIccService iIccService, IMessageService iMessageService) {
+    public IPerroServiceImpl(IPerroRepository iPerroRepository, IRazaService iRazaService, IMovilidadService iMovilidadService, IColorPeloService iColorPeloService, IAnimoService iAnimoService, IIccService iIccService, IUnidadMasaService iUnidadMasaService, IMessageService iMessageService) {
         this.iPerroRepository = iPerroRepository;
         this.iRazaService = iRazaService;
         this.iMovilidadService = iMovilidadService;
         this.iColorPeloService = iColorPeloService;
         this.iAnimoService = iAnimoService;
         this.iIccService = iIccService;
+        this.iUnidadMasaService = iUnidadMasaService;
         this.iMessageService = iMessageService;
     }
 
@@ -44,6 +47,8 @@ public class IPerroServiceImpl implements IPerroService {
         perro.setMovilidad(iMovilidadService.getById(perroDto.getIdMovilidad()));
         perro.setColorPelo(iColorPeloService.getById(perroDto.getIdColorPelo()));
         perro.setAnimo(iAnimoService.getById(perroDto.getIdAnimo()));
+        if (Objects.nonNull(perroDto.getIdUnidadMasa()))
+            perro.setUnidadMasa(iUnidadMasaService.getById(perroDto.getIdUnidadMasa()));
 
         return IPerroMapper.INSTANCE.toDto(iPerroRepository.save(perro));
     }

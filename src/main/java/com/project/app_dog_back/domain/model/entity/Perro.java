@@ -49,4 +49,7 @@ public class Perro {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "per_animo_id")
     private Animo animo;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "per_unidadmasa_id")
+    private UnidadMasa unidadMasa;
 }
