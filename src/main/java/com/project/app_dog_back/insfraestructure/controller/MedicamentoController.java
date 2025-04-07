@@ -49,7 +49,7 @@ public class MedicamentoController {
         return ResponseEntity.ok(response);
     }
 
-    @Operation(summary = "Get a record by id.")
+    @Operation(summary = "Obtain all medication records.")
     @GetMapping
     public ResponseEntity<Response> getAll() {
         Response response = new Response();
