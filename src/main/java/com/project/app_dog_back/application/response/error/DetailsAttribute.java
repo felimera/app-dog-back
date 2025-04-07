@@ -1,4 +1,4 @@
-package com.project.app_dog_back.application.response;
+package com.project.app_dog_back.application.response.error;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Builder;

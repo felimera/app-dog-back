@@ -1,6 +1,6 @@
 package com.project.app_dog_back.insfraestructure.exception;
 
-import com.project.app_dog_back.application.response.KeyValueError;
+import com.project.app_dog_back.application.response.error.KeyValueError;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.http.HttpStatus;

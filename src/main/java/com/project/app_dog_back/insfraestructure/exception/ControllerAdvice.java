@@ -1,6 +1,7 @@
 package com.project.app_dog_back.insfraestructure.exception;
 
 import com.project.app_dog_back.application.response.*;
+import com.project.app_dog_back.application.response.error.*;
 import com.project.app_dog_back.domain.model.component.TypesStatus;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

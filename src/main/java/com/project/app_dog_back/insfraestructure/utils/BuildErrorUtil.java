@@ -1,6 +1,6 @@
 package com.project.app_dog_back.insfraestructure.utils;
 
-import com.project.app_dog_back.application.response.KeyValueError;
+import com.project.app_dog_back.application.response.error.KeyValueError;
 import org.springframework.validation.BindingResult;
 
 import java.util.List;
