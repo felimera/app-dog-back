@@ -1,0 +1,13 @@
+package com.project.app_dog_back.domain.service;
+
+import com.project.app_dog_back.application.dto.DosisMedicamentoDto;
+
+import java.util.List;
+
+public interface IDosisMedicamentoService {
+    DosisMedicamentoDto getById(Long id);
+
+    List<DosisMedicamentoDto> getAll();
+
+    DosisMedicamentoDto create(DosisMedicamentoDto dto);
+}

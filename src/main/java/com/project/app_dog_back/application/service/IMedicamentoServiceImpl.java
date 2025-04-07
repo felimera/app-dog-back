@@ -40,6 +40,13 @@ public class IMedicamentoServiceImpl implements IMedicamentoService {
     }
 
     @Override
+    public Medicamento getMedicamentoById(Long id) {
+        Locale locale = LocaleContextHolder.getLocale();
+        String message = iMessageService.getMensaje("infor.not_found", locale);
+        return iMedicamentoRepository.findById(id).orElseThrow(() -> new NotFoundException(message, String.valueOf(HttpStatus.NOT_FOUND.value()), HttpStatus.NOT_FOUND));
+    }
+
+    @Override
     public List<MedicamentoDto> getAll() {
         return iMedicamentoRepository.findAll().stream().map(IMedicamentoMapper.INSTANCE::toDto).toList();
     }
