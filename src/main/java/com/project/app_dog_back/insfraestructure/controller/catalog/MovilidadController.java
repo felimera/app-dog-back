@@ -1,10 +1,10 @@
-package com.project.app_dog_back.insfraestructure.controller;
+package com.project.app_dog_back.insfraestructure.controller.catalog;
 
 import com.project.app_dog_back.application.response.Meta;
 import com.project.app_dog_back.application.response.Pagination;
 import com.project.app_dog_back.application.response.Response;
 import com.project.app_dog_back.domain.model.component.TypesStatus;
-import com.project.app_dog_back.domain.service.ITipoAlimentoService;
+import com.project.app_dog_back.domain.service.IMovilidadService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.extern.slf4j.Slf4j;
@@ -15,27 +15,27 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-@Tag(name = "Tipo alimento", description = "Operation related to types of dog food.")
+@Tag(name = "Movilidad", description = "All operations related to mobility.")
 @RestController
-@RequestMapping(path = "/api/v1/tipoalimento")
+@RequestMapping(path = "/api/v1/movilidad")
 @Slf4j
 @CrossOrigin(origins = "http://localhost:4200")
-public class TipoAlimentoController {
+public class MovilidadController {
 
-    private ITipoAlimentoService iTipoAlimentoService;
+    private IMovilidadService iMovilidadService;
 
     @Autowired
-    public TipoAlimentoController(ITipoAlimentoService iTipoAlimentoService) {
-        this.iTipoAlimentoService = iTipoAlimentoService;
+    public MovilidadController(IMovilidadService iMovilidadService) {
+        this.iMovilidadService = iMovilidadService;
     }
 
-    @Operation(summary = "Get all types of dog food.")
+    @Operation(summary = "Get all mobility records")
     @GetMapping
     public ResponseEntity<Response> getAll() {
         Response response = new Response();
         response.setMeta(Meta.builder().build().toMetaBuilder(TypesStatus.SUCCESS.name()));
         response.setPagination(Pagination.builder().build().toPaginationBuilder());
-        response.setData(iTipoAlimentoService.getAll());
+        response.setData(iMovilidadService.getAll());
 
         return ResponseEntity.ok(response);
     }
