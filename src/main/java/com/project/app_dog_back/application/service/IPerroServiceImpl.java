@@ -63,4 +63,11 @@ public class IPerroServiceImpl implements IPerroService {
         Perro entity = iPerroRepository.findById(id).orElseThrow(() -> new NotFoundException(message, String.valueOf(HttpStatus.NOT_FOUND.value()), HttpStatus.NOT_FOUND));
         return IPerroMapper.INSTANCE.toDto(entity);
     }
+
+    @Override
+    public Perro getPerroById(Long idPerro) {
+        Locale locale = LocaleContextHolder.getLocale();
+        String message = iMessageService.getMensaje("infor.not_found", locale);
+        return iPerroRepository.findById(idPerro).orElseThrow(() -> new NotFoundException(message, String.valueOf(HttpStatus.NOT_FOUND.value()), HttpStatus.NOT_FOUND));
+    }
 }
