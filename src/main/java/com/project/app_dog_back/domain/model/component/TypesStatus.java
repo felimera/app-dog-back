@@ -4,6 +4,6 @@ import lombok.AllArgsConstructor;
 
 @AllArgsConstructor
 public enum TypesStatus {
-    SUCCESS("success"), ERROR("error");
+    SUCCESS("success"), ERROR("error"), CREATED("create");
     private String name;
 }
