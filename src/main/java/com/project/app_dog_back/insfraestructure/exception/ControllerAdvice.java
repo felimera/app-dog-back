@@ -1,6 +1,6 @@
 package com.project.app_dog_back.insfraestructure.exception;
 
-import com.project.app_dog_back.application.response.*;
+import com.project.app_dog_back.application.response.Meta;
 import com.project.app_dog_back.application.response.error.*;
 import com.project.app_dog_back.domain.model.component.TypesStatus;
 import org.springframework.http.HttpStatus;
@@ -28,14 +28,19 @@ public class ControllerAdvice {
                 .build();
         response.setMeta(Meta.builder().build().toMetaBuilder(TypesStatus.ERROR.name()));
         response.setError(errorGeneral);
-        return ResponseEntity.ok(response);
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(response);
     }
 
     @ExceptionHandler(value = ConflictException.class)
-    public ResponseEntity<ResponseErrorGeneral> conflictExceptionHandler(ConflictException ex) {
-        ResponseErrorGeneral response = new ResponseErrorGeneral();
-        DetailsGeneral detailsGeneral = DetailsGeneral.builder().statusCode(ex.getHttpStatus().name()).statusCodeValue(ex.getHttpStatus().value()).build();
-        ErrorGeneral errorGeneral = ErrorGeneral
+    public ResponseEntity<ResponseErrorAttribute> conflictExceptionHandler(ConflictException ex) {
+        ResponseErrorAttribute response = new ResponseErrorAttribute();
+        DetailsAttribute detailsGeneral = DetailsAttribute
+                .builder()
+                .statusCode(ex.getHttpStatus().name())
+                .statusCodeValue(ex.getHttpStatus().value())
+                .data(ex.getConflictingFields())
+                .build();
+        ErrorAttribute errorGeneral = ErrorAttribute
                 .builder()
                 .code(ex.getCode())
                 .message(ex.getMessage())
@@ -44,7 +49,7 @@ public class ControllerAdvice {
 
         response.setMeta(Meta.builder().build().toMetaBuilder(TypesStatus.ERROR.name()));
         response.setError(errorGeneral);
-        return ResponseEntity.ok(response);
+        return ResponseEntity.status(HttpStatus.CONFLICT).body(response);
     }
 
     @ExceptionHandler(value = BadRequestException.class)
@@ -65,6 +70,6 @@ public class ControllerAdvice {
 
         response.setMeta(Meta.builder().build().toMetaBuilder(TypesStatus.ERROR.name()));
         response.setError(error);
-        return ResponseEntity.ok(response);
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
     }
 }

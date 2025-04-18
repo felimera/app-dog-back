@@ -4,4 +4,6 @@ import java.util.Locale;
 
 public interface IMessageService {
     String getMensaje(String codigo, Locale locale);
+
+    String getMessage(String codigo);
 }

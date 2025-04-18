@@ -7,6 +7,7 @@ import com.project.app_dog_back.application.response.Meta;
 import com.project.app_dog_back.application.response.Pagination;
 import com.project.app_dog_back.domain.model.component.TypesStatus;
 import com.project.app_dog_back.domain.service.IAlimentoService;
+import com.project.app_dog_back.domain.service.IMessageService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
@@ -25,21 +26,25 @@ import org.springframework.web.bind.annotation.*;
 public class AlimentoController {
 
     private IAlimentoService iAlimentoService;
+    private IMessageService iMessageService;
 
     @Autowired
-    public AlimentoController(IAlimentoService iAlimentoService) {
+    public AlimentoController(IAlimentoService iAlimentoService, IMessageService iMessageService) {
         this.iAlimentoService = iAlimentoService;
+        this.iMessageService = iMessageService;
     }
 
     @Operation(summary = "Create a dog food log.", description = "Returns the created record.")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "201", description = "Created successfully.")
+            @ApiResponse(responseCode = "201", description = "Created successfully."),
+            @ApiResponse(responseCode = "409", description = "Conflict in the creation of the registry." )
     })
     @PostMapping
     public ResponseEntity<AlimentoManageResponse> create(@RequestBody AlimentoDto dto) {
         AlimentoManageResponse response = new AlimentoManageResponse();
         response.setStatus(TypesStatus.CREATED.name());
-        response.setMessage("Record created successfully.");
+        String message = iMessageService.getMessage("infor.created");
+        response.setMessage(message);
         response.setData(iAlimentoService.create(dto));
 
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
