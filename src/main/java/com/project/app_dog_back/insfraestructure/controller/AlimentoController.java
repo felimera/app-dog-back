@@ -1,13 +1,12 @@
 package com.project.app_dog_back.insfraestructure.controller;
 
 import com.project.app_dog_back.application.dto.AlimentoDto;
-import com.project.app_dog_back.application.response.AlimentoManageResponse;
-import com.project.app_dog_back.application.response.AlimentoQueryResponse;
+import com.project.app_dog_back.application.response.AlimentoResponse;
 import com.project.app_dog_back.application.response.Meta;
 import com.project.app_dog_back.application.response.Pagination;
 import com.project.app_dog_back.domain.model.component.TypesStatus;
 import com.project.app_dog_back.domain.service.IAlimentoService;
-import com.project.app_dog_back.domain.service.IMessageService;
+import com.project.app_dog_back.domain.service.IMetaService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
@@ -26,25 +25,24 @@ import org.springframework.web.bind.annotation.*;
 public class AlimentoController {
 
     private IAlimentoService iAlimentoService;
-    private IMessageService iMessageService;
+    private IMetaService iMetaService;
 
     @Autowired
-    public AlimentoController(IAlimentoService iAlimentoService, IMessageService iMessageService) {
+    public AlimentoController(IAlimentoService iAlimentoService, IMetaService iMetaService) {
         this.iAlimentoService = iAlimentoService;
-        this.iMessageService = iMessageService;
+        this.iMetaService = iMetaService;
     }
 
     @Operation(summary = "Create a dog food log.", description = "Returns the created record.")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "201", description = "Created successfully."),
-            @ApiResponse(responseCode = "409", description = "Conflict in the creation of the registry." )
+            @ApiResponse(responseCode = "409", description = "Conflict in the creation of the registry.")
     })
     @PostMapping
-    public ResponseEntity<AlimentoManageResponse> create(@RequestBody AlimentoDto dto) {
-        AlimentoManageResponse response = new AlimentoManageResponse();
-        response.setStatus(TypesStatus.CREATED.name());
-        String message = iMessageService.getMessage("infor.created");
-        response.setMessage(message);
+    public ResponseEntity<AlimentoResponse> create(@RequestBody AlimentoDto dto) {
+        AlimentoResponse response = new AlimentoResponse();
+        Meta meta = iMetaService.buildMetaBody("infor.created", TypesStatus.CREATED.name());
+        response.setMeta(meta);
         response.setData(iAlimentoService.create(dto));
 
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
@@ -56,9 +54,10 @@ public class AlimentoController {
             @ApiResponse(responseCode = "404", description = "Not found - The record was not found.")
     })
     @GetMapping(path = "{id}")
-    public ResponseEntity<AlimentoQueryResponse> getById(@PathVariable(name = "id") Long id) {
-        AlimentoQueryResponse response = new AlimentoQueryResponse();
-        response.setMeta(Meta.builder().build().toMetaBuilder(TypesStatus.SUCCESS.name()));
+    public ResponseEntity<AlimentoResponse> getById(@PathVariable(name = "id") Long id) {
+        AlimentoResponse response = new AlimentoResponse();
+        Meta meta = iMetaService.buildMetaBody("infor.query", TypesStatus.SUCCESS.name());
+        response.setMeta(meta);
         response.setPagination(Pagination.builder().build().toPaginationBuilder());
         response.setData(iAlimentoService.getById(id));
 
@@ -71,9 +70,10 @@ public class AlimentoController {
             @ApiResponse(responseCode = "404", description = "Not found - The record was not found.")
     })
     @GetMapping
-    public ResponseEntity<AlimentoQueryResponse> getAll() {
-        AlimentoQueryResponse response = new AlimentoQueryResponse();
-        response.setMeta(Meta.builder().build().toMetaBuilder(TypesStatus.SUCCESS.name()));
+    public ResponseEntity<AlimentoResponse> getAll() {
+        AlimentoResponse response = new AlimentoResponse();
+        Meta meta = iMetaService.buildMetaBody("infor.queries", TypesStatus.SUCCESS.name());
+        response.setMeta(meta);
         response.setPagination(Pagination.builder().build().toPaginationBuilder());
         response.setData(iAlimentoService.getAll());
 

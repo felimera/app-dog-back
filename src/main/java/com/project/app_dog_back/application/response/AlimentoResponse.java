@@ -5,7 +5,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 
 @Data
-public class AlimentoQueryResponse {
+public class AlimentoResponse {
     @Schema(description = "Meta object.", exampleClasses = Meta.class)
     private Meta meta;
     @Schema(description = "Alimento.", exampleClasses = AlimentoDto.class)
