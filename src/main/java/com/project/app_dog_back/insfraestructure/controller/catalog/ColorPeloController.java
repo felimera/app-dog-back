@@ -5,7 +5,10 @@ import com.project.app_dog_back.application.response.Pagination;
 import com.project.app_dog_back.application.response.Response;
 import com.project.app_dog_back.domain.model.component.TypesStatus;
 import com.project.app_dog_back.domain.service.IColorPeloService;
+import com.project.app_dog_back.domain.service.IMetaService;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,17 +26,23 @@ import org.springframework.web.bind.annotation.RestController;
 public class ColorPeloController {
 
     private IColorPeloService iColorPeloService;
+    private IMetaService iMetaService;
 
     @Autowired
-    public ColorPeloController(IColorPeloService iColorPeloService) {
+    public ColorPeloController(IColorPeloService iColorPeloService, IMetaService iMetaService) {
         this.iColorPeloService = iColorPeloService;
+        this.iMetaService = iMetaService;
     }
 
     @Operation(summary = "Get all hair color records.")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Successfully retrieved")
+    })
     @GetMapping
     public ResponseEntity<Response> getAll() {
         Response response = new Response();
-        response.setMeta(Meta.builder().build().toMetaBuilder(TypesStatus.SUCCESS.name()));
+        Meta meta = iMetaService.buildMetaBody("infor.queries", TypesStatus.SUCCESS.name());
+        response.setMeta(meta);
         response.setPagination(Pagination.builder().build().toPaginationBuilder());
         response.setData(iColorPeloService.getAll());
 

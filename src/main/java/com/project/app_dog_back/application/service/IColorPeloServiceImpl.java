@@ -1,6 +1,6 @@
 package com.project.app_dog_back.application.service;
 
-import com.project.app_dog_back.application.dto.ColorPeloDto;
+import com.project.app_dog_back.application.dto.catalog.ColorPeloDto;
 import com.project.app_dog_back.application.mapper.IColorPeloMapper;
 import com.project.app_dog_back.domain.model.catalog.ColorPelo;
 import com.project.app_dog_back.domain.repository.IColorPeloRepository;
