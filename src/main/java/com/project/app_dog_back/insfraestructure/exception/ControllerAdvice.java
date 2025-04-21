@@ -1,7 +1,6 @@
 package com.project.app_dog_back.insfraestructure.exception;
 
 import com.project.app_dog_back.application.response.Meta;
-import com.project.app_dog_back.application.response.error.DetailsGeneral;
 import com.project.app_dog_back.application.response.error.ErrorGeneral;
 import com.project.app_dog_back.application.response.error.ResponseErrorAttribute;
 import com.project.app_dog_back.application.response.error.ResponseErrorGeneral;
@@ -32,15 +31,9 @@ public class ControllerAdvice {
     @ExceptionHandler(value = NotFoundException.class)
     public ResponseEntity<ResponseErrorGeneral> notFoundExceptionHandler(NotFoundException ex) {
         ResponseErrorGeneral response = new ResponseErrorGeneral();
-        DetailsGeneral detailsGeneral = DetailsGeneral.builder().statusCode(ex.getHttpStatus().name()).statusCodeValue(ex.getHttpStatus().value()).build();
-        ErrorGeneral errorGeneral = ErrorGeneral
-                .builder()
-                .code(ex.getCode())
-                .message(ex.getMessage())
-                .details(detailsGeneral)
-                .build();
-        response.setMeta(Meta.builder().build().toMetaBuilder(TypesStatus.ERROR.name()));
-        response.setError(errorGeneral);
+        Meta meta = iMetaService.buildMetaBody("infor.not_found", TypesStatus.ERROR.name());
+        response.setMeta(meta);
+        response.setError(BuildErrorUtil.buildNotFoundExceptionForErrorAttribute(ex));
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(response);
     }
 

@@ -24,4 +24,11 @@ public class DosisMedicamento {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "dos_medicamento_id")
     private Medicamento medicamento;
+
+    @PrePersist
+    public void prePersist() {
+        if (this.fecha == null) {
+            this.fecha = LocalDateTime.now();
+        }
+    }
 }
