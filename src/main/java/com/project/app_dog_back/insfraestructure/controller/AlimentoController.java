@@ -1,9 +1,9 @@
 package com.project.app_dog_back.insfraestructure.controller;
 
 import com.project.app_dog_back.application.dto.AlimentoDto;
-import com.project.app_dog_back.application.response.AlimentoResponse;
 import com.project.app_dog_back.application.response.Meta;
 import com.project.app_dog_back.application.response.Pagination;
+import com.project.app_dog_back.application.response.Response;
 import com.project.app_dog_back.domain.model.component.TypesStatus;
 import com.project.app_dog_back.domain.service.IAlimentoService;
 import com.project.app_dog_back.domain.service.IMetaService;
@@ -39,8 +39,8 @@ public class AlimentoController {
             @ApiResponse(responseCode = "409", description = "Conflict in the creation of the registry.")
     })
     @PostMapping
-    public ResponseEntity<AlimentoResponse> create(@RequestBody AlimentoDto dto) {
-        AlimentoResponse response = new AlimentoResponse();
+    public ResponseEntity<Response> create(@RequestBody AlimentoDto dto) {
+        Response response = new Response();
         Meta meta = iMetaService.buildMetaBody("infor.created", TypesStatus.CREATED.name());
         response.setMeta(meta);
         response.setData(iAlimentoService.create(dto));
@@ -54,8 +54,8 @@ public class AlimentoController {
             @ApiResponse(responseCode = "404", description = "Not found - The record was not found.")
     })
     @GetMapping(path = "{id}")
-    public ResponseEntity<AlimentoResponse> getById(@PathVariable(name = "id") Long id) {
-        AlimentoResponse response = new AlimentoResponse();
+    public ResponseEntity<Response> getById(@PathVariable(name = "id") Long id) {
+        Response response = new Response();
         Meta meta = iMetaService.buildMetaBody("infor.query", TypesStatus.SUCCESS.name());
         response.setMeta(meta);
         response.setPagination(Pagination.builder().build().toPaginationBuilder());
@@ -70,8 +70,8 @@ public class AlimentoController {
             @ApiResponse(responseCode = "404", description = "Not found - The record was not found.")
     })
     @GetMapping
-    public ResponseEntity<AlimentoResponse> getAll() {
-        AlimentoResponse response = new AlimentoResponse();
+    public ResponseEntity<Response> getAll() {
+        Response response = new Response();
         Meta meta = iMetaService.buildMetaBody("infor.queries", TypesStatus.SUCCESS.name());
         response.setMeta(meta);
         response.setPagination(Pagination.builder().build().toPaginationBuilder());
