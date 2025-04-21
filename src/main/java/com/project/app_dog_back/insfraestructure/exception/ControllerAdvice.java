@@ -1,7 +1,10 @@
 package com.project.app_dog_back.insfraestructure.exception;
 
 import com.project.app_dog_back.application.response.Meta;
-import com.project.app_dog_back.application.response.error.*;
+import com.project.app_dog_back.application.response.error.DetailsGeneral;
+import com.project.app_dog_back.application.response.error.ErrorGeneral;
+import com.project.app_dog_back.application.response.error.ResponseErrorAttribute;
+import com.project.app_dog_back.application.response.error.ResponseErrorGeneral;
 import com.project.app_dog_back.domain.model.component.TypesStatus;
 import com.project.app_dog_back.domain.service.IMetaService;
 import com.project.app_dog_back.insfraestructure.utils.BuildErrorUtil;
@@ -53,21 +56,18 @@ public class ControllerAdvice {
     @ExceptionHandler(value = BadRequestException.class)
     public ResponseEntity<ResponseErrorAttribute> badRequestExceptionHandler(BadRequestException ex) {
         ResponseErrorAttribute response = new ResponseErrorAttribute();
-        DetailsAttribute details = DetailsAttribute
-                .builder()
-                .statusCode(ex.getHttpStatus().name())
-                .statusCodeValue(ex.getHttpStatus().value())
-                .data(ex.getKeyValueErrors())
-                .build();
-        ErrorAttribute error = ErrorAttribute
-                .builder()
-                .code(ex.getCode())
-                .message(ex.getMessage())
-                .details(details)
-                .build();
-
-        response.setMeta(Meta.builder().build().toMetaBuilder(TypesStatus.ERROR.name()));
-        response.setError(error);
+        Meta meta = iMetaService.buildMetaBody("error.emptynull", TypesStatus.ERROR.name());
+        response.setMeta(meta);
+        response.setError(BuildErrorUtil.buildBadRequestExceptionForErrorAttribute(ex));
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
+    }
+
+    @ExceptionHandler(value = ResponseMessageException.class)
+    public ResponseEntity<ResponseErrorAttribute> responseErrorAttributeResponseEntity(ResponseMessageException ex) {
+        ResponseErrorAttribute response = new ResponseErrorAttribute();
+        Meta meta = iMetaService.buildMetaBody("error.emptynull", TypesStatus.ERROR.name());
+        response.setMeta(meta);
+        response.setError(BuildErrorUtil.buildResponseMessageExceptionForErrorAttribute(ex));
+        return ResponseEntity.status(ex.getHttpStatus()).body(response);
     }
 }

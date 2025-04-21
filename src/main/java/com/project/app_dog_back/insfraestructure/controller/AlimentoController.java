@@ -7,14 +7,18 @@ import com.project.app_dog_back.application.response.Response;
 import com.project.app_dog_back.domain.model.component.TypesStatus;
 import com.project.app_dog_back.domain.service.IAlimentoService;
 import com.project.app_dog_back.domain.service.IMetaService;
+import com.project.app_dog_back.insfraestructure.exception.ResponseMessageException;
+import com.project.app_dog_back.insfraestructure.utils.BuildErrorUtil;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 @Tag(name = "Alimento", description = "Operations related to dog food.")
@@ -39,7 +43,10 @@ public class AlimentoController {
             @ApiResponse(responseCode = "409", description = "Conflict in the creation of the registry.")
     })
     @PostMapping
-    public ResponseEntity<Response> create(@RequestBody AlimentoDto dto) {
+    public ResponseEntity<Response> create(@Valid @RequestBody AlimentoDto dto, BindingResult bindingResult) {
+        log.info("Creating Alimento: {}", dto);
+        if (bindingResult.hasErrors())
+            throw new ResponseMessageException("401-01", "Error creating store.", BuildErrorUtil.formatMessage(bindingResult), HttpStatus.BAD_REQUEST);
         Response response = new Response();
         Meta meta = iMetaService.buildMetaBody("infor.created", TypesStatus.CREATED.name());
         response.setMeta(meta);
