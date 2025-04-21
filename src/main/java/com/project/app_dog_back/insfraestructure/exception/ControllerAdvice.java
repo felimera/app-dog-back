@@ -65,7 +65,7 @@ public class ControllerAdvice {
     @ExceptionHandler(value = ResponseMessageException.class)
     public ResponseEntity<ResponseErrorAttribute> responseErrorAttributeResponseEntity(ResponseMessageException ex) {
         ResponseErrorAttribute response = new ResponseErrorAttribute();
-        Meta meta = iMetaService.buildMetaBody("error.emptynull", TypesStatus.ERROR.name());
+        Meta meta = iMetaService.buildMetaBodyWithEx(TypesStatus.ERROR.name(), ex);
         response.setMeta(meta);
         response.setError(BuildErrorUtil.buildResponseMessageExceptionForErrorAttribute(ex));
         return ResponseEntity.status(ex.getHttpStatus()).body(response);
