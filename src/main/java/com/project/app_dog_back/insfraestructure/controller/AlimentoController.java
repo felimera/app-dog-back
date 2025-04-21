@@ -40,6 +40,7 @@ public class AlimentoController {
     @Operation(summary = "Create a dog food log.", description = "Returns the created record.")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "201", description = "Created successfully."),
+            @ApiResponse(responseCode = "400", description = "Bad Request."),
             @ApiResponse(responseCode = "409", description = "Conflict in the creation of the registry.")
     })
     @PostMapping
