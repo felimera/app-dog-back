@@ -9,7 +9,7 @@ import java.time.Instant;
 @Data
 @Builder
 public class Meta {
-    @Schema(description = "Indicates the status of the response.", examples = {"400", "404", "500"})
+    @Schema(description = "Indicates the status of the response.", example = "Success")
     private String status;
     @Schema(description = "The API version.", examples = {"0.0.1-SNAPSHOT", "1.0"})
     private String version;

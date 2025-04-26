@@ -4,13 +4,25 @@ import com.project.app_dog_back.application.dto.MedicamentoDto;
 import com.project.app_dog_back.application.response.Meta;
 import com.project.app_dog_back.application.response.Pagination;
 import com.project.app_dog_back.application.response.Response;
+import com.project.app_dog_back.application.response.error.ResponseErrorAttribute;
+import com.project.app_dog_back.application.response.error.ResponseErrorGeneral;
 import com.project.app_dog_back.domain.model.component.TypesStatus;
 import com.project.app_dog_back.domain.service.IMedicamentoService;
+import com.project.app_dog_back.domain.service.IMetaService;
+import com.project.app_dog_back.insfraestructure.exception.ResponseMessageException;
+import com.project.app_dog_back.insfraestructure.utils.BuildErrorUtil;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 @Tag(name = "Medicamento", description = "Operations related to medicines.")
@@ -21,28 +33,64 @@ import org.springframework.web.bind.annotation.*;
 public class MedicamentoController {
 
     private IMedicamentoService iMedicamentoService;
+    private IMetaService iMetaService;
 
     @Autowired
-    public MedicamentoController(IMedicamentoService iMedicamentoService) {
+    public MedicamentoController(IMedicamentoService iMedicamentoService, IMetaService iMetaService) {
         this.iMedicamentoService = iMedicamentoService;
+        this.iMetaService = iMetaService;
     }
 
     @Operation(summary = "Create a medicine registration.")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "201", description = "Created successfully."),
+            @ApiResponse(
+                    responseCode = "400",
+                    description = "Bad Request.",
+                    content = {
+                            @Content(
+                                    mediaType = "application/json",
+                                    schema = @Schema(implementation = ResponseErrorAttribute.class)
+                            )}),
+            @ApiResponse(
+                    responseCode = "409",
+                    description = "Conflict in the creation of the registry.",
+                    content = {
+                            @Content(
+                                    mediaType = "application/json",
+                                    schema = @Schema(implementation = ResponseErrorAttribute.class)
+                            )})
+    })
     @PostMapping
-    public ResponseEntity<Response> create(@RequestBody MedicamentoDto dto) {
+    public ResponseEntity<Response> create(@Valid @RequestBody MedicamentoDto dto, BindingResult bindingResult) {
+        log.info("Creating Medicamento: {}", dto);
+        if (bindingResult.hasErrors())
+            throw new ResponseMessageException("401-01", "Error creating store.", BuildErrorUtil.formatMessage(bindingResult), HttpStatus.BAD_REQUEST);
         Response response = new Response();
-        response.setMeta(Meta.builder().build().toMetaBuilder(TypesStatus.SUCCESS.name()));
-        response.setPagination(Pagination.builder().build().toPaginationBuilder());
+        Meta meta = iMetaService.buildMetaBody("infor.created", TypesStatus.CREATED.name());
+        response.setMeta(meta);
         response.setData(iMedicamentoService.create(dto));
 
-        return ResponseEntity.ok(response);
+        return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
 
     @Operation(summary = "Get a record by id.")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Successfully retrieved"),
+            @ApiResponse(
+                    responseCode = "404",
+                    description = "Not found - The record was not found.",
+                    content = {
+                            @Content(
+                                    mediaType = "application/json",
+                                    schema = @Schema(implementation = ResponseErrorGeneral.class)
+                            )})
+    })
     @GetMapping(path = "{id}")
     public ResponseEntity<Response> getById(@PathVariable(name = "id") Long id) {
         Response response = new Response();
-        response.setMeta(Meta.builder().build().toMetaBuilder(TypesStatus.SUCCESS.name()));
+        Meta meta = iMetaService.buildMetaBody("infor.query", TypesStatus.SUCCESS.name());
+        response.setMeta(meta);
         response.setPagination(Pagination.builder().build().toPaginationBuilder());
         response.setData(iMedicamentoService.getById(id));
 
@@ -50,10 +98,22 @@ public class MedicamentoController {
     }
 
     @Operation(summary = "Obtain all medication records.")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Successfully retrieved"),
+            @ApiResponse(
+                    responseCode = "404",
+                    description = "Not found - The record was not found.",
+                    content = {
+                            @Content(
+                                    mediaType = "application/json",
+                                    schema = @Schema(implementation = ResponseErrorGeneral.class)
+                            )})
+    })
     @GetMapping
     public ResponseEntity<Response> getAll() {
         Response response = new Response();
-        response.setMeta(Meta.builder().build().toMetaBuilder(TypesStatus.SUCCESS.name()));
+        Meta meta = iMetaService.buildMetaBody("infor.queries", TypesStatus.SUCCESS.name());
+        response.setMeta(meta);
         response.setPagination(Pagination.builder().build().toPaginationBuilder());
         response.setData(iMedicamentoService.getAll());
 
