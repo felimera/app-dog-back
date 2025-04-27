@@ -4,8 +4,8 @@ import com.project.app_dog_back.application.dto.SalidaDto;
 import com.project.app_dog_back.application.mapper.ISalidaMapper;
 import com.project.app_dog_back.domain.model.entity.Salida;
 import com.project.app_dog_back.domain.repository.ISalidaRepository;
+import com.project.app_dog_back.domain.service.IMascotaService;
 import com.project.app_dog_back.domain.service.IMessageService;
-import com.project.app_dog_back.domain.service.IPerroService;
 import com.project.app_dog_back.domain.service.ISalidaService;
 import com.project.app_dog_back.insfraestructure.exception.NotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,13 +20,13 @@ import java.util.Locale;
 public class ISalidaServiceImpl implements ISalidaService {
     private ISalidaRepository iSalidaRepository;
     private IMessageService iMessageService;
-    private IPerroService iPerroService;
+    private IMascotaService iMascotaService;
 
     @Autowired
-    public ISalidaServiceImpl(ISalidaRepository iSalidaRepository, IMessageService iMessageService, IPerroService iPerroService) {
+    public ISalidaServiceImpl(ISalidaRepository iSalidaRepository, IMessageService iMessageService, IMascotaService iMascotaService) {
         this.iSalidaRepository = iSalidaRepository;
         this.iMessageService = iMessageService;
-        this.iPerroService = iPerroService;
+        this.iMascotaService = iMascotaService;
     }
 
     @Override
@@ -46,7 +46,7 @@ public class ISalidaServiceImpl implements ISalidaService {
     public SalidaDto create(SalidaDto dto) {
 
         Salida entity = ISalidaMapper.INSTANCE.toEntity(dto);
-        entity.setPerro(iPerroService.getPerroById(dto.getIdPerro()));
+        entity.setMascota(iMascotaService.getMascotaById(dto.getIdPerro()));
 
         return ISalidaMapper.INSTANCE.toDto(iSalidaRepository.save(entity));
     }
