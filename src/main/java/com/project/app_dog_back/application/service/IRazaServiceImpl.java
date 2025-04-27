@@ -1,6 +1,6 @@
 package com.project.app_dog_back.application.service;
 
-import com.project.app_dog_back.application.dto.RazaDto;
+import com.project.app_dog_back.application.dto.catalog.RazaDto;
 import com.project.app_dog_back.application.mapper.IRazaMapper;
 import com.project.app_dog_back.domain.model.catalog.Raza;
 import com.project.app_dog_back.domain.repository.IRazaRepository;
