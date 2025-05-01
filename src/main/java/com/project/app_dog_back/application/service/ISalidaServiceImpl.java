@@ -46,7 +46,7 @@ public class ISalidaServiceImpl implements ISalidaService {
     public SalidaDto create(SalidaDto dto) {
 
         Salida entity = ISalidaMapper.INSTANCE.toEntity(dto);
-        entity.setMascota(iMascotaService.getMascotaById(dto.getIdPerro()));
+        entity.setMascota(iMascotaService.getMascotaById(dto.getIdMascota()));
 
         return ISalidaMapper.INSTANCE.toDto(iSalidaRepository.save(entity));
     }
