@@ -1,6 +1,7 @@
 package com.project.app_dog_back.domain.service;
 
 import com.project.app_dog_back.application.dto.SalidaDto;
+import com.project.app_dog_back.domain.model.entity.Salida;
 
 import java.util.List;
 
@@ -10,4 +11,6 @@ public interface ISalidaService {
     List<SalidaDto> getAll();
 
     SalidaDto create(SalidaDto dto);
+
+    Salida getSalidaById(Long idSalida);
 }

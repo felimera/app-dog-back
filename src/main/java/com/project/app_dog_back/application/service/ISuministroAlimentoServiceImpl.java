@@ -48,4 +48,11 @@ public class ISuministroAlimentoServiceImpl implements ISuministroAlimentoServic
         entity.setAlimento(iAlimentoService.getAlimentoById(dto.getIdAlimento()));
         return ISuministroAlimentoMapper.INSTANCE.toDto(iSuministroAlimentoRepository.save(entity));
     }
+
+    @Override
+    public SuministroAlimento getSuministraAlimentoById(Long idSuministroAlimento) {
+        Locale locale = LocaleContextHolder.getLocale();
+        String message = iMessageService.getMensaje("infor.not_found", locale);
+        return iSuministroAlimentoRepository.findById(idSuministroAlimento).orElseThrow(() -> new NotFoundException(message, String.valueOf(HttpStatus.NOT_FOUND.value()), HttpStatus.NOT_FOUND));
+    }
 }

@@ -48,4 +48,11 @@ public class IDosisMedicamentoServiceImpl implements IDosisMedicamentoService {
         entity.setMedicamento(iMedicamentoService.getMedicamentoById(dto.getIdMedicamento()));
         return IDosisMedicamentoMapper.INSTANCE.toDto(iDosisMedicamentoRepository.save(entity));
     }
+
+    @Override
+    public DosisMedicamento getDosisMedicamento(Long idDosisMedicamento) {
+        Locale locale = LocaleContextHolder.getLocale();
+        String message = iMessageService.getMensaje("infor.not_found", locale);
+        return iDosisMedicamentoRepository.findById(idDosisMedicamento).orElseThrow(() -> new NotFoundException(message, String.valueOf(HttpStatus.NOT_FOUND.value()), HttpStatus.NOT_FOUND));
+    }
 }

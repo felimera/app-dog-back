@@ -50,4 +50,11 @@ public class ISalidaServiceImpl implements ISalidaService {
 
         return ISalidaMapper.INSTANCE.toDto(iSalidaRepository.save(entity));
     }
+
+    @Override
+    public Salida getSalidaById(Long idSalida) {
+        Locale locale = LocaleContextHolder.getLocale();
+        String message = iMessageService.getMensaje("infor.not_found", locale);
+        return iSalidaRepository.findById(idSalida).orElseThrow(() -> new NotFoundException(message, String.valueOf(HttpStatus.NOT_FOUND.value()), HttpStatus.NOT_FOUND));
+    }
 }
