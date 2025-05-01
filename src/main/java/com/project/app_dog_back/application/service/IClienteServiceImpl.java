@@ -2,6 +2,7 @@ package com.project.app_dog_back.application.service;
 
 import com.project.app_dog_back.application.dto.ClienteDto;
 import com.project.app_dog_back.application.mapper.IClienteMapper;
+import com.project.app_dog_back.application.response.error.KeyValueError;
 import com.project.app_dog_back.domain.model.entity.Cliente;
 import com.project.app_dog_back.domain.repository.IClienteRepository;
 import com.project.app_dog_back.domain.service.IClienteService;
@@ -13,6 +14,7 @@ import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.Locale;
 
@@ -53,7 +55,8 @@ public class IClienteServiceImpl implements IClienteService {
         if (iClienteRepository.getMatchOnEmail(dto.getEmail()) > 0) {
             Locale locale = LocaleContextHolder.getLocale();
             String message = iMessageService.getMensaje("war.repeated", locale);
-            throw new ConflictException(message, String.valueOf(HttpStatus.CONFLICT.value()), HttpStatus.CONFLICT);
+            List<KeyValueError> conflictingFields = Collections.singletonList(KeyValueError.builder().attributeName("email").attributeValue(message).build());
+            throw new ConflictException(message, String.valueOf(HttpStatus.CONFLICT.value()), HttpStatus.CONFLICT, conflictingFields);
         }
 
         Cliente cliente = IClienteMapper.INSTANCE.toEntity(dto);

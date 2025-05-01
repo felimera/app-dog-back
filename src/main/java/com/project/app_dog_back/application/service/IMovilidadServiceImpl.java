@@ -1,6 +1,6 @@
 package com.project.app_dog_back.application.service;
 
-import com.project.app_dog_back.application.dto.MovilidadDto;
+import com.project.app_dog_back.application.dto.catalog.MovilidadDto;
 import com.project.app_dog_back.application.mapper.IMovilidadMapper;
 import com.project.app_dog_back.domain.model.catalog.Movilidad;
 import com.project.app_dog_back.domain.repository.IMovilidadRepository;
