@@ -4,12 +4,18 @@ import com.project.app_dog_back.application.dto.AlimentoDto;
 import com.project.app_dog_back.application.response.Meta;
 import com.project.app_dog_back.application.response.Pagination;
 import com.project.app_dog_back.application.response.Response;
+import com.project.app_dog_back.application.response.error.ResponseErrorAttribute;
+import com.project.app_dog_back.application.response.error.ResponseErrorGeneral;
 import com.project.app_dog_back.domain.model.component.TypesStatus;
 import com.project.app_dog_back.domain.service.IAlimentoService;
 import com.project.app_dog_back.domain.service.IMetaService;
 import com.project.app_dog_back.insfraestructure.exception.ResponseMessageException;
 import com.project.app_dog_back.insfraestructure.utils.BuildErrorUtil;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.enums.ParameterIn;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -40,8 +46,22 @@ public class AlimentoController {
     @Operation(summary = "Create a dog food log.", description = "Returns the created record.")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "201", description = "Created successfully."),
-            @ApiResponse(responseCode = "400", description = "Bad Request."),
-            @ApiResponse(responseCode = "409", description = "Conflict in the creation of the registry.")
+            @ApiResponse(
+                    responseCode = "400",
+                    description = "Bad Request.",
+                    content = {
+                            @Content(
+                                    mediaType = "application/json",
+                                    schema = @Schema(implementation = ResponseErrorAttribute.class)
+                            )}),
+            @ApiResponse(
+                    responseCode = "409",
+                    description = "Conflict in the creation of the registry.",
+                    content = {
+                            @Content(
+                                    mediaType = "application/json",
+                                    schema = @Schema(implementation = ResponseErrorAttribute.class)
+                            )})
     })
     @PostMapping
     public ResponseEntity<Response> create(@Valid @RequestBody AlimentoDto dto, BindingResult bindingResult) {
@@ -59,10 +79,19 @@ public class AlimentoController {
     @Operation(summary = "Get a record by id.", description = "Returns a record by its ID.")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Successfully retrieved"),
-            @ApiResponse(responseCode = "404", description = "Not found - The record was not found.")
+            @ApiResponse(
+                    responseCode = "404",
+                    description = "Not found - The record was not found.",
+                    content = {
+                            @Content(
+                                    mediaType = "application/json",
+                                    schema = @Schema(implementation = ResponseErrorGeneral.class)
+                            )})
     })
     @GetMapping(path = "{id}")
-    public ResponseEntity<Response> getById(@PathVariable(name = "id") Long id) {
+    public ResponseEntity<Response> getById(
+            @Parameter(name = "id", in = ParameterIn.PATH, description = "ID de la alimento a obtener.", required = true)
+            @PathVariable(name = "id") Long id) {
         Response response = new Response();
         Meta meta = iMetaService.buildMetaBody("infor.query", TypesStatus.SUCCESS.name());
         response.setMeta(meta);
@@ -75,7 +104,14 @@ public class AlimentoController {
     @Operation(summary = "Get all the food records.", description = "Returns a list of records.")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Successfully retrieved"),
-            @ApiResponse(responseCode = "404", description = "Not found - The record was not found.")
+            @ApiResponse(
+                    responseCode = "404",
+                    description = "Not found - The record was not found.",
+                    content = {
+                            @Content(
+                                    mediaType = "application/json",
+                                    schema = @Schema(implementation = ResponseErrorGeneral.class)
+                            )})
     })
     @GetMapping
     public ResponseEntity<Response> getAll() {
