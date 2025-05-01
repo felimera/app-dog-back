@@ -10,8 +10,6 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.time.LocalDate;
-
 @Getter
 @Setter
 @Builder
@@ -27,7 +25,7 @@ public class MascotaDto {
     private Integer edad;
     @Schema(description = "Date of birth of the pet.", example = "2020-01-01")
     @Pattern(regexp = Constant.REGEXP_DATE, message = "Incorrect date format. Ex: yyyy-MM-dd.")
-    private LocalDate fechaNacimiento;
+    private String fechaNacimiento;
     @Schema(description = "Foreign key identifier. (Raza)", example = "1")
     private Long idRaza;
     @Schema(description = "Foreign key identifier. (Color de pelo)", example = "1")
