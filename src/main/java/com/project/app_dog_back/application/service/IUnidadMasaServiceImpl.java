@@ -1,6 +1,6 @@
 package com.project.app_dog_back.application.service;
 
-import com.project.app_dog_back.application.dto.UnidadMasaDto;
+import com.project.app_dog_back.application.dto.catalog.UnidadMasaDto;
 import com.project.app_dog_back.application.mapper.IUnidadMasaMapper;
 import com.project.app_dog_back.domain.model.catalog.UnidadMasa;
 import com.project.app_dog_back.domain.repository.IUnidadMasaRepository;
