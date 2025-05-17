@@ -26,6 +26,6 @@ public class Salida {
     @Column(name = "sal_tipo_salida", nullable = false)
     private TipoSalida tipoSalida;
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "sal_perro_id")
-    private Perro perro;
+    @JoinColumn(name = "sal_mascota_id")
+    private Mascota mascota;
 }

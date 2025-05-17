@@ -2,6 +2,7 @@ package com.project.app_dog_back.application.service;
 
 import com.project.app_dog_back.application.dto.MedicamentoDto;
 import com.project.app_dog_back.application.mapper.IMedicamentoMapper;
+import com.project.app_dog_back.application.response.error.KeyValueError;
 import com.project.app_dog_back.domain.model.entity.Medicamento;
 import com.project.app_dog_back.domain.repository.IMedicamentoRepository;
 import com.project.app_dog_back.domain.service.IMedicamentoService;
@@ -14,6 +15,7 @@ import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.Locale;
 import java.util.Objects;
@@ -56,7 +58,8 @@ public class IMedicamentoServiceImpl implements IMedicamentoService {
         if (iMedicamentoRepository.getMatchOnName(dto.getNombre()) > 0) {
             Locale locale = LocaleContextHolder.getLocale();
             String message = iMessageService.getMensaje("war.repeated", locale);
-            throw new ConflictException(message, String.valueOf(HttpStatus.CONFLICT.value()), HttpStatus.CONFLICT);
+            List<KeyValueError> conflictingFields = Collections.singletonList(KeyValueError.builder().attributeName("nombre").attributeValue(message).build());
+            throw new ConflictException(message, String.valueOf(HttpStatus.CONFLICT.value()), HttpStatus.CONFLICT, conflictingFields);
         }
 
         Medicamento entity = IMedicamentoMapper.INSTANCE.toEntity(dto);

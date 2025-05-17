@@ -1,6 +1,6 @@
 package com.project.app_dog_back.application.service;
 
-import com.project.app_dog_back.application.dto.TipoAlimentoDto;
+import com.project.app_dog_back.application.dto.catalog.TipoAlimentoDto;
 import com.project.app_dog_back.application.mapper.ITipoAlimentoMapper;
 import com.project.app_dog_back.domain.model.catalog.TipoAlimento;
 import com.project.app_dog_back.domain.repository.ITipoAlimentoRepository;

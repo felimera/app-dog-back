@@ -1,6 +1,6 @@
 package com.project.app_dog_back.application.service;
 
-import com.project.app_dog_back.application.dto.ViaAdministracionDto;
+import com.project.app_dog_back.application.dto.catalog.ViaAdministracionDto;
 import com.project.app_dog_back.application.mapper.IViaAdministracionMapper;
 import com.project.app_dog_back.domain.model.catalog.ViaAdministracion;
 import com.project.app_dog_back.domain.repository.IViaAdministracionRepository;

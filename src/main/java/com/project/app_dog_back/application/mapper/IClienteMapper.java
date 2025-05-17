@@ -12,7 +12,6 @@ public interface IClienteMapper {
     IClienteMapper INSTANCE = Mappers.getMapper(IClienteMapper.class);
 
     @Mapping(target = "idCliente", source = "id")
-    @Mapping(target = "fechaRegistro", ignore = true)
     @Mapping(target = "activo", ignore = true)
     ClienteDto toDto(Cliente entity);
 
